@@ -2,7 +2,6 @@ package io.dmytrohutnyk;
 
 import lombok.Builder;
 import lombok.Data;
-
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -77,7 +76,7 @@ public class DocumentManager {
             return Optional.empty();
         }
 
-        return documents.stream().filter(element -> element.getId().equals(id)).findFirst();
+        return documents.stream().filter(element -> element.getId().trim().equals(id.trim())).findFirst();
     }
 
     @Data
@@ -113,7 +112,8 @@ public class DocumentManager {
 
         return request.getTitlePrefixes()
                 .stream()
-                .anyMatch(prefix -> document.getTitle().startsWith(prefix));
+                .map(String::toLowerCase)
+                .anyMatch(prefix -> document.getTitle().toLowerCase().startsWith(prefix));
     }
 
     private boolean containsContents(Document document, SearchRequest request){
@@ -122,7 +122,8 @@ public class DocumentManager {
 
         return request.getContainsContents()
                 .stream()
-                .anyMatch(content -> document.getContent().contains(content));
+                .map(String::toLowerCase)
+                .anyMatch(content -> document.getContent().toLowerCase().contains(content));
     }
 
     private boolean containsAuthors(Document document, SearchRequest request){
