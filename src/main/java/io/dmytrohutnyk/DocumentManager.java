@@ -132,7 +132,7 @@ public class DocumentManager {
 
         return request.getAuthorIds()
                 .stream()
-                .anyMatch(id -> document.getAuthor().getId().equals(id));
+                .anyMatch(id -> document.getAuthor().getId().trim().equals(id.trim()));
     }
 
     private boolean createdFrom (Document document, SearchRequest request){
